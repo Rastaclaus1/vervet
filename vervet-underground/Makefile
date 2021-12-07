@@ -2,7 +2,7 @@ GOMOD=go mod
 GOBUILD=go build
 GOTEST=go test
 
-.PHONY: run fmt lint tidy test test-coverage
+.PHONY: run fmt lint tidy test test-coverage clean compose
 
 fmt:
 	go fmt ./...
@@ -43,3 +43,12 @@ test-coverage:
 start:
 	go run server.go
 
+.PHONY: clean
+clean:
+	rm -f server
+	docker-compose down --volumes
+	docker rmi vervet-underground
+
+.PHONY: compose
+compose: build
+	docker-compose up -d
